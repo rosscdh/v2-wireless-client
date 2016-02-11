@@ -8,7 +8,11 @@
     "wifi-control": "^1.0.1",
     "request": "^2.69.0",
     "sleep": "^3.0.1",
-    "promise": "^7.1.1"
+    "promise": "^7.1.1",
+    "mocha": "^2.4.5",
+    "chai": "^3.5.0",
+    "mockery": "^1.4.0",
+    "sinon": "^1.17.3"
   },
   "devDependencies": {},
   "scripts": {
