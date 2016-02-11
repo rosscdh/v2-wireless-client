@@ -36,6 +36,7 @@
       with_items:
          - scanner.js
          - sniff.js
+         - sneeze.js
          - package.json
       sudo: yes
 

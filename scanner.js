@@ -22,6 +22,7 @@ var WiFiControl = require('wifi-control');
 var request = require('request');
 var sleep = require('sleep');
 var sniff = require('./sniff')
+var sneeze = require('./sneeze')
 
 //  Initialize wifi-control package with verbose output
 WiFiControl.init({
@@ -52,10 +53,14 @@ WiFiControl.scanForWiFi( function(err, response) {
         if (results.success === true) {
           sleep.sleep(2);
 
-          sniff(target_host, {
-            hiveempire_host: 'http://localhost:8008/v1/event/',
-            sense: sense_device,
-            device: network
+          sniff(target_host).then(function (data) {
+
+            sneeze({
+              'hiveempire_host': 'http://localhost:8008/v1/event/',
+              'sense': sense_device,
+              'device': network
+            });
+
           });
 
         } // end result.success
