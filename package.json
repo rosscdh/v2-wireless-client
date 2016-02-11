@@ -6,7 +6,8 @@
   "dependencies": {
     "wifiscanner": "^0.0.10",
     "wifi-control": "^1.0.1",
-    "request": "^2.69.0"
+    "request": "^2.69.0",
+    "sleep": "^3.0.1"
   },
   "devDependencies": {},
   "scripts": {
