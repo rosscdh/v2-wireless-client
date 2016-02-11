@@ -1,0 +1,17 @@
+{
+  "name": "hiveempire-nodeman",
+  "version": "0.0.1",
+  "description": "Wireless AP Connector",
+  "main": "scanner.js",
+  "dependencies": {
+    "wifiscanner": "^0.0.10",
+    "wifi-control": "^1.0.1",
+    "request": "^2.69.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
