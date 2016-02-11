@@ -15,7 +15,11 @@ var default_sensor_ip = config.get('default_sensor_ip');
 
 var sense_device = {id: hiveempire_sense_device_id || '00000000d390eefe'}
 
-var access_point = config.get('access_point');
+var default_access_point = config.get('access_point');
+var access_point = {
+  "ssid": default_access_point.ssid,
+  "password": default_access_point.password
+}
 
 var WiFiControl = require('wifi-control');
 var request = require('request');

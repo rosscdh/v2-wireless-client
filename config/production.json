@@ -1,0 +1,6 @@
+{
+  "debug": false,
+  "api": {
+    "event": "http://api.hiveempire.com/v1/event/"
+  }
+}

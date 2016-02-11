@@ -5,7 +5,7 @@
   "access_point": {
     "ssid": null,
     "password": "12345678"
-    },
+  },
   "api": {
     "event": "http://localhost:8008/v1/event/"
   }
