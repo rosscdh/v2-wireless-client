@@ -1,4 +1,5 @@
 'use strict';
+var config = require('config');
 
 // Get the passed in HiveEmpire-Sense device id
 var args = process.argv.slice(2);
@@ -6,17 +7,15 @@ var hiveempire_sense_device_id = args[0];
 // args.forEach(function (val, index, array) {
 //   console.log(index + ': ' + val);
 // });
+var debug = config.get('debug')
+var api = config.get('api')
+var ssid_identifier = config.get('ssid_identifier');
 
-var ssid_identifier = 'he-'
-
-var target_host = '192.168.4.1';
+var default_sensor_ip = config.get('default_sensor_ip');
 
 var sense_device = {id: hiveempire_sense_device_id || '00000000d390eefe'}
 
-var _ap = {
-  "ssid": null,
-  "password": "12345678"
-};
+var _ap = config.get('access_point');
 
 var WiFiControl = require('wifi-control');
 var request = require('request');
@@ -26,7 +25,7 @@ var sneeze = require('./sneeze')
 
 //  Initialize wifi-control package with verbose output
 WiFiControl.init({
-  debug: true
+  debug: debug
 });
 
 //  Try scanning for access points:
@@ -53,12 +52,14 @@ WiFiControl.scanForWiFi( function(err, response) {
         if (results.success === true) {
           sleep.sleep(2);
 
-          sniff(target_host).then(function (data) {
-
-            sneeze({
-              'hiveempire_host': 'http://localhost:8008/v1/event/',
+          sniff(default_sensor_ip).then(function (data) {
+            // send the json data from the sensor as well as the device info
+            sneeze(data, {
+              'hiveempire_host': api.event,
               'sense': sense_device,
-              'device': network
+              'network': network
+            }).then(function (resp) {
+              console.log(resp);
             });
 
           });

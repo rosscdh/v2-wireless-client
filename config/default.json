@@ -1,0 +1,12 @@
+{
+  "debug": true,
+  "default_sensor_ip": "192.168.4.1",
+  "ssid_identifier": "he-",
+  "access_point": {
+    "ssid": null,
+    "password": "12345678"
+    },
+  "api": {
+    "event": "http://localhost:8008/v1/event/"
+  }
+}
