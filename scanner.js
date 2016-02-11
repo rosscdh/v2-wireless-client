@@ -86,7 +86,7 @@ require('getmac').getMac(function (err, macAddress) {
 
         } else { // ssid match if
           access_point.ssid = null;
-          console.log('No matched for SSID: ' + network.ssid + ' signal_level: ' + network.signal_level)
+          console.log('No match for SSID: ' + network.ssid + ' signal_level: ' + network.signal_level)
         } // end ssid match if
 
       });
