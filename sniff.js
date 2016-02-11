@@ -3,6 +3,7 @@
 var target_host = '192.168.4.1';
 var hiveempire_host = 'http://localhost:8009/v1/event/';
 
+var Promise = require('promise');
 var request = require('request');
 var net = require('net');
 
@@ -16,17 +17,18 @@ function sniff(host, options) {
     agent: false
   };
 
-  var client = new net.Socket();
+  var promise = new Promise(function (resolve, reject) {
+    var client = new net.Socket();
 
-  client.connect(http_options.port, http_options.host, function() {
-    console.log('Connected: ' + http_options.host + ':' + http_options.port);
-  });
+    client.connect(http_options.port, http_options.host, function() {
+      console.log('Connected: ' + http_options.host + ':' + http_options.port);
+    });
 
-  client.on('data', function(data) {
-    console.log('Received: ' + data);
-    var json_data = JSON.parse(data.toString());
+    client.on('data', function(data) {
+      console.log('Received: ' + data);
+      var json_data = JSON.parse(data.toString());
 
-    var send_data = {"source": null,
+      var send_data = {"source": null,
                      "sensor_action": "temperature,humidity",
                      "temperature": json_data.temp,
                      "humidity": json_data.humidity,
@@ -37,18 +39,25 @@ function sniff(host, options) {
                          "signal_level": options.device.signal_level,
                          "security": options.device.security,
                      }};
-    request.post({
-      url: options.hiveempire_host || hiveempire_host,
-      json: send_data
+      request.post({
+        url: options.hiveempire_host || hiveempire_host,
+        json: send_data
+      },
+      function optionalCallback(err, httpResponse, body) {
+        client.destroy(); // kill client after server's response
+        if (err) reject(err);
+        resolve(body);
+      });
+
+    });// end client on data
+
+    client.on('close', function() {
+      console.log('Connection closed');
     });
 
-    client.destroy(); // kill client after server's response
-  });
+  }); // end Promise
 
-  client.on('close', function() {
-    console.log('Connection closed');
-  });
-
+  return promise;
 }
 
 module.exports = sniff
