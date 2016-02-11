@@ -45,4 +45,4 @@
       npm: path="{{ APP_PATH }}" global=no
 
     - name: Setup the cron
-      cron: name="HiveEmpire Sense" minute="0" job="node {{ APP_PATH }}/scanner.js > /dev/null"
+      cron: name="HiveEmpire Sense" minute="0" job="/usr/local/bin/node {{ APP_PATH }}/scanner.js > /dev/null"
