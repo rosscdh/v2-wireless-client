@@ -15,7 +15,7 @@ var default_sensor_ip = config.get('default_sensor_ip');
 
 var sense_device = {id: hiveempire_sense_device_id || '00000000d390eefe'}
 
-var _ap = config.get('access_point');
+var access_point = config.get('access_point');
 
 var WiFiControl = require('wifi-control');
 var request = require('request');
@@ -42,16 +42,19 @@ WiFiControl.scanForWiFi( function(err, response) {
         security: 'WPA(PSK/TKIP/TKIP) WPA2(PSK/AES/TKIP)' }
       */
       if ( network.ssid.indexOf(ssid_identifier) != -1) {
+        console.log('Matched SSID: ' + network.ssid)
+
         // update the ssid
-        _ap.ssid = network.ssid;
+        access_point.ssid = network.ssid;
 
         // connect to the Access point
-        var results = WiFiControl.connectToAP( _ap );
+        var results = WiFiControl.connectToAP( access_point );
 
         // if we have a success
         if (results.success === true) {
           sleep.sleep(2);
 
+          // Try to sniff the sensor data from the ip
           sniff(default_sensor_ip).then(function (data) {
             // send the json data from the sensor as well as the device info
             sneeze(data, {
@@ -60,13 +63,16 @@ WiFiControl.scanForWiFi( function(err, response) {
               'network': network
             }).then(function (resp) {
               console.log(resp);
-            });
+            }); // end sneeze promise
 
-          });
+          }); // end sniff promiss
 
         } // end result.success
 
-      }
+      } else { // ssid match if
+        access_point.ssid = null;
+        console.log('No matched for SSID: ' + network.ssid + ' signal_level: ' + network.signal_level)
+      } // end ssid match if
 
     });
   }
