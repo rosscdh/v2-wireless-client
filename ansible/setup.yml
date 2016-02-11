@@ -1,0 +1,48 @@
+---
+- hosts: all
+  remote_user: vagrant
+  gather_facts: yes
+
+  vars:
+    APP_PATH: /var/apps/hiveempire-smell
+    NODE_VERSION: 0.12.7
+    remote_user: vagrant
+
+  tasks:
+    # - name: Install node 1
+    #   get_url: url=https://deb.nodesource.com/setup_4.x dest=~/ mode=0755
+    #   sudo: yes
+
+    # - name: Install node 2
+    #   shell: ~/setup_4.x;apt-get update
+    #   sudo: yes
+
+    # - name: Install node
+    #   apt: name=nodejs state=present update_cache=yes
+    #   sudo: yes
+
+    # - name: Install n
+    #   npm: name=n global=yes
+    #   sudo: yes
+
+    # - name: Install node
+    #   shell: n {{ NODE_VERSION }}
+    #   sudo: yes
+
+    - name: Creates directory
+      file: path="{{ APP_PATH }}" state=directory owner="{{ remote_user }}" group="{{ remote_user }}"
+      sudo: yes
+
+    - name: Copy packages
+      copy: src="../{{ item }}" dest="{{ APP_PATH }}" owner="{{ remote_user }}" group="{{ remote_user }}"
+      with_items:
+         - scanner.js
+         - sniff.js
+         - package.json
+      sudo: yes
+
+    - name: Install packages
+      npm: path="{{ APP_PATH }}" global=no
+
+    - name: Setup the cron
+      cron: name="HiveEmpire Sense" minute="0" job="node {{ APP_PATH }}/scanner.js > /dev/null"
