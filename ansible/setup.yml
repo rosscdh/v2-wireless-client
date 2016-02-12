@@ -57,9 +57,15 @@
          - sneeze.js
          - package.json
          - config
+         - sensor_events_db.schema
       sudo: yes
       tags:
         - app-install
+
+    - name: Setup the database
+      shell: sqlite3 {{ APP_PATH }}/sensor_events.db < {{ APP_PATH }}/sensor_events_db.schema
+      tags:
+        - app-db-install
 
     - name: Install packages
       npm: path="{{ APP_PATH }}" global=no
@@ -67,6 +73,6 @@
         - app-packages-install
 
     - name: Setup the cron
-      cron: name="HiveEmpire Sense" minute="0,15,30,45" job="/usr/local/bin/node {{ APP_PATH }}/scanner.js > /dev/null"
+      cron: name="HiveEmpire Sense" minute="0,15,30,45" job="NODE_ENV=production /usr/local/bin/node {{ APP_PATH }}/scanner.js > /dev/null"
       tags:
         - app-cron-install

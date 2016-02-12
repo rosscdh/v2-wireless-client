@@ -48,5 +48,5 @@ function sniff (host) {
   return promise;
 }
 
-module.exports = sniff
+exports.sniff = sniff;
 // sniff('192.168.4.1');

@@ -7,28 +7,35 @@ var hiveempire_host = 'http://api.hiveempire.com/v1/event/';
 
 var Promise = require('promise');
 var request = require('request');
-
+var tissue = require('./tissue');
 
 function sneeze (data, options) {
 
   var promise = new Promise(function (resolve, reject) {
       var sensor_action = Object.keys(data);
 
-      var send_data = {"api_version": 2,
-                       // sensor_action must NOT be a list it must be a string
-                       "sensor_action": sensor_action.toString(), // temp gets converted to temperature on the server side
-                       "tags": {
-                           "device_id": options.sense.id,
-                           "sensor_id": options.network.mac,
-                           "channel": options.network.channel,
-                           "signal_level": options.network.signal_level,
-                           "security": options.network.security,
-                       }};
-      // dynamically add the sensor actions to the payload
-      // the names are converted to the "correct" names on the server side
-      sensor_action.forEach(function (item) {
-        send_data[item] = data[item];
-      });
+      if (options.send_data === undefined) {
+        var send_data = {"api_version": 2,
+                         "timestamp": new Date().getTime(),
+                         // sensor_action must NOT be a list it must be a string
+                         "sensor_action": sensor_action.toString(), // temp gets converted to temperature on the server side
+                         "tags": {
+                             "device_id": options.sense.id,
+                             "sensor_id": options.network.mac,
+                             "channel": options.network.channel,
+                             "signal_level": options.network.signal_level,
+                             "security": options.network.security,
+                         }};
+
+        // dynamically add the sensor actions to the payload
+        // the names are converted to the "correct" names on the server side
+        sensor_action.forEach(function (item) {
+          send_data[item] = data[item];
+        });
+      } else {
+        // came in from previous attempt
+        var send_data = options.send_data;
+      }
 
       // send the data
       request.post({
@@ -36,8 +43,14 @@ function sneeze (data, options) {
         json: send_data
       },
       function optionalCallback(err, httpResponse, body) {
-        if (err) reject(err);
-        resolve(body);
+        if (err) {
+          // record as a tissue for sending later
+          tissue.save_tissue(send_data);
+
+          reject(err);
+        } else {
+          resolve(body);
+        };
       });
 
   }); // end Promise
@@ -45,7 +58,7 @@ function sneeze (data, options) {
   return promise;
 }
 
-module.exports = sneeze
+exports.sneeze = sneeze;
 // var data = {"temp": "23", "humidity": "52"};
 // var options = {hiveempire_host: 'http://localhost:8008/v1/event/',
 //             sense: {id: '00000000d390eefe' },

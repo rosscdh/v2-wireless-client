@@ -4,15 +4,18 @@
   "description": "Wireless AP Connector",
   "main": "scanner.js",
   "dependencies": {
+    "bookshelf": "^0.9.1",
     "chai": "^3.5.0",
     "config": "^1.19.0",
     "getmac": "^1.0.7",
+    "knex": "^0.9.0",
     "mocha": "^2.4.5",
     "mockery": "^1.4.0",
     "promise": "^7.1.1",
     "request": "^2.69.0",
     "sinon": "^1.17.3",
     "sleep": "^3.0.1",
+    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
     "wifi-control": "^1.0.1",
     "wifiscanner": "^0.0.10"
   },

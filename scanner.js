@@ -39,6 +39,7 @@ require('getmac').getMac(function (err, macAddress) {
   var sleep = require('sleep');
   var sniff = require('./sniff')
   var sneeze = require('./sneeze')
+  var tissue = require('./tissue')
 
   //  Initialize wifi-control package with verbose output
   WiFiControl.init({
@@ -73,12 +74,12 @@ require('getmac').getMac(function (err, macAddress) {
             sleep.sleep(2);
 
             // Try to sniff the sensor data from the ip
-            sniff(default_sensor_ip)
+            sniff.sniff(default_sensor_ip)
             .then(function (data) {
               console.log(data);
 
               // send the json data from the sensor as well as the device info
-              sneeze(data, {
+              sneeze.sneeze(data, {
                 'hiveempire_host': api.event,
                 'sense': sense_device,
                 'network': network
@@ -101,5 +102,10 @@ require('getmac').getMac(function (err, macAddress) {
     } // end response.success
 
   }); // end WifiControl.Scan
+
+  /**
+  * Try to send any previously captured tissues
+  */
+  tissue.send_tissues();
 
 });
