@@ -107,4 +107,6 @@ require('getmac').getMac(function (err, macAddress) {
     //tissue.send_tissues().then(function (resp) { console.log(resp); });
   }); // end WifiControl.Scan
 
+  WiFiControl.resetWiFi()
+
 });
