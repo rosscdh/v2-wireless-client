@@ -25,3 +25,22 @@ NODE_ENV=development node scanner.js
 
 NODE_ENV=development node debug scanner.js
 ```
+
+
+# Raspberry setup
+
+We use ansible for managing raspberries
+
+
+**Setup SSH Auth**
+
+```
+ansible-playbook -i ansible/hosts ansible/auth.yml --ask-pass --sudo
+```
+
+
+**Install the App**
+
+```
+ansible-playbook -i ansible/hosts ansible/setup.yml
+```
