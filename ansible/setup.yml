@@ -57,9 +57,15 @@
          - sneeze.js
          - package.json
          - config
+         - sensor_events_db.schema
       sudo: yes
       tags:
         - app-install
+
+    - name: Setup the database
+      shell: sqlite3 {{ APP_PATH }}/sensor_events.db < {{ APP_PATH }}/sensor_events_db.schema
+      tags:
+        - app-db-install
 
     - name: Install packages
       npm: path="{{ APP_PATH }}" global=no

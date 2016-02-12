@@ -8,7 +8,6 @@ var hiveempire_host = 'http://api.hiveempire.com/v1/event/';
 var Promise = require('promise');
 var request = require('request');
 
-
 function sneeze (data, options) {
 
   var promise = new Promise(function (resolve, reject) {
@@ -24,6 +23,7 @@ function sneeze (data, options) {
                            "signal_level": options.network.signal_level,
                            "security": options.network.security,
                        }};
+
       // dynamically add the sensor actions to the payload
       // the names are converted to the "correct" names on the server side
       sensor_action.forEach(function (item) {

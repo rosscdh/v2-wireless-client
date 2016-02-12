@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS sensor_events;
+CREATE TABLE sensor_events(
+   id INT PRIMARY KEY         NOT NULL,
+   name           TEXT        NOT NULL,
+   date_of        DATETIME    NOT NULL
+);
