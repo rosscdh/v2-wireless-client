@@ -6,6 +6,7 @@ Node module to sniff around for any scent of sensors and then send or save their
 
 ```
 npm install
+sqlite3 sensor_events.db < sensor_events_db.schema
 ```
 
 
