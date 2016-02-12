@@ -73,6 +73,6 @@
         - app-packages-install
 
     - name: Setup the cron
-      cron: name="HiveEmpire Sense" minute="0,15,30,45" job="/usr/local/bin/node {{ APP_PATH }}/scanner.js > /dev/null"
+      cron: name="HiveEmpire Sense" minute="0,15,30,45" job="NODE_ENV=production /usr/local/bin/node {{ APP_PATH }}/scanner.js > /dev/null"
       tags:
         - app-cron-install

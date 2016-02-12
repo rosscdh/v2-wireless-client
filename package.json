@@ -15,7 +15,7 @@
     "request": "^2.69.0",
     "sinon": "^1.17.3",
     "sleep": "^3.0.1",
-    "sqlite3": "^3.1.1",
+    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
     "wifi-control": "^1.0.1",
     "wifiscanner": "^0.0.10"
   },

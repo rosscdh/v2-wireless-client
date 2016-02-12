@@ -1,4 +1,4 @@
-SensorEvents.db
+sensor_events.db
 # Logs
 logs
 *.log

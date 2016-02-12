@@ -39,11 +39,17 @@ require('getmac').getMac(function (err, macAddress) {
   var sleep = require('sleep');
   var sniff = require('./sniff')
   var sneeze = require('./sneeze')
+  var tissue = require('./tissue')
 
   //  Initialize wifi-control package with verbose output
   WiFiControl.init({
     debug: debug
   });
+
+  /**
+  * Try to send any previously captured tissues
+  */
+  send_tissues()
 
   //  Try scanning for access points:
   WiFiControl.scanForWiFi( function(err, response) {
