@@ -36,11 +36,15 @@ function save_tissue (data) {
 
 function send_tissues () {
   var promise = new Promise(function (resolve, reject) {
+    // get saved sensor events
     SensorEvent.fetchAll().then(function (collection) {
+      // loop over collection
       collection.forEach(function (row) {
+        // extract the data as json
         var send_data = JSON.parse(row.attributes.data);
+        // set the date_of
         var date_of = row.attributes.date_of;
-
+        // try to send the data again
         sneeze.sneeze({}, {
           'hiveempire_host': api.event,
           'send_data': send_data,

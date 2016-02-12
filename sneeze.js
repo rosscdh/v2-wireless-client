@@ -49,7 +49,11 @@ function sneeze (data, options) {
       function optionalCallback(err, httpResponse, body) {
         if (err) {
           // record as a tissue for sending later
-          tissue.save_tissue(send_data);
+          if (options.send_data === undefined) {
+            // if it comes in from options.send_data it means
+            // its come from the database
+            tissue.save_tissue(send_data);
+          }
           reject(err);
         } else {
           resolve(body);

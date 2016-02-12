@@ -54,11 +54,12 @@ require('getmac').getMac(function (err, macAddress) {
       // loop over the list of networks
       response.networks.forEach(function (network) {
         /**
-        { mac: 'a2:05:43:a1:7f:1c',
-          ssid: 'KROJ',
-          channel: '36,+1',
-          signal_level: '-71',
-          security: 'WPA(PSK/TKIP/TKIP) WPA2(PSK/AES/TKIP)' }
+          { mac: 'a2:05:43:a1:7f:1c',
+            ssid: 'KROJ',
+            channel: '36,+1',
+            signal_level: '-71',
+            security: 'WPA(PSK/TKIP/TKIP) WPA2(PSK/AES/TKIP)'
+          }
         */
         if ( network.ssid.indexOf(ssid_identifier) != -1) {
           console.log('Matched SSID: ' + network.ssid);
@@ -104,9 +105,9 @@ require('getmac').getMac(function (err, macAddress) {
     * Try to send any previously captured tissues
     */
     console.log('End Scan')
-    //tissue.send_tissues().then(function (resp) { console.log(resp); });
+    tissue.send_tissues().then(function (resp) { console.log(resp); });
   }); // end WifiControl.Scan
 
-  WiFiControl.resetWiFi()
+  //WiFiControl.resetWiFi()
 
 });
