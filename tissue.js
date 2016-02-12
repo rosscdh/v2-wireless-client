@@ -24,6 +24,9 @@ var SensorEvent = bookshelf.Model.extend({
   tableName: 'sensor_events'
 });
 
+/**
+* Save an object into the database ebcause it could not be setn
+*/
 function save_tissue (data) {
   var promise = new Promise(function (resolve, reject) {
       var sensor_event = new SensorEvent({'data': JSON.stringify(data), 'date_of': new Date()});
@@ -34,6 +37,9 @@ function save_tissue (data) {
   return promise;
 }
 
+/**
+* Try to resend the saved issues
+*/
 function send_tissues () {
   var promise = new Promise(function (resolve, reject) {
     // get saved sensor events
