@@ -46,11 +46,6 @@ require('getmac').getMac(function (err, macAddress) {
     debug: debug
   });
 
-  /**
-  * Try to send any previously captured tissues
-  */
-  send_tissues()
-
   //  Try scanning for access points:
   WiFiControl.scanForWiFi( function(err, response) {
     if (err) throw err;
@@ -79,12 +74,12 @@ require('getmac').getMac(function (err, macAddress) {
             sleep.sleep(2);
 
             // Try to sniff the sensor data from the ip
-            sniff(default_sensor_ip)
+            sniff.sniff(default_sensor_ip)
             .then(function (data) {
               console.log(data);
 
               // send the json data from the sensor as well as the device info
-              sneeze(data, {
+              sneeze.sneeze(data, {
                 'hiveempire_host': api.event,
                 'sense': sense_device,
                 'network': network
@@ -107,5 +102,10 @@ require('getmac').getMac(function (err, macAddress) {
     } // end response.success
 
   }); // end WifiControl.Scan
+
+  /**
+  * Try to send any previously captured tissues
+  */
+  tissue.send_tissues();
 
 });

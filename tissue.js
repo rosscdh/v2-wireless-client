@@ -24,10 +24,11 @@ var SensorEvent = bookshelf.Model.extend({
   tableName: 'sensor_events'
 });
 
-function tissue (data) {
+function save_tissue (data) {
   var promise = new Promise(function (resolve, reject) {
       var sensor_event = new SensorEvent({'data': JSON.stringify(data), 'date_of': new Date()});
       sensor_event.save(null, {method: 'insert'})
+      resolve(sensor_event)
   }); // end Promise
 
   return promise;
@@ -40,7 +41,7 @@ function send_tissues () {
       var send_data = JSON.parse(row.attributes.data);
       var date_of = row.attributes.date_of;
 
-      sneeze({}, {
+      sneeze.sneeze({}, {
         'hiveempire_host': api.event,
         'send_data': send_data,
       })
@@ -52,16 +53,13 @@ function send_tissues () {
     });
 
   });
-
 }
 
-module.exports = {
-  tissue: tissue,
-  send_tissues: send_tissues
-}
+exports.save_tissue = save_tissue;
+exports.send_tissues = send_tissues;
 
-// tissue({"api_version": 2,
-//        "timestamp": 1455285804686,
+// save_tissue({"api_version": 2,
+//        "timestamp": new Date().getTime(),
 //        // sensor_action must NOT be a list it must be a string
 //        "sensor_action": 'temp,humidity', // temp gets converted to temperature on the server side
 //        "temp": "23",
