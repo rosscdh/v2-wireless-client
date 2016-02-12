@@ -6,23 +6,30 @@ var Promise = require('promise');
 var request = require('request');
 
 
-function sneeze(data, options) {
+function sneeze (data, options) {
 
   var promise = new Promise(function (resolve, reject) {
-      var send_data = {"source": null,
-                     "sensor_action": "temperature,humidity",
-                     "temperature": data.temp,
-                     "humidity": data.humidity,
-                     "tags": {
-                         "device_id": options.sense.id,
-                         "sensor_id": options.network.mac,
-                         "channel": options.network.channel,
-                         "signal_level": options.network.signal_level,
-                         "security": options.network.security,
-                     }};
+      var sensor_action = Object.keys(data);
+
+      var send_data = {"api_version": 2,
+                       // sensor_action must NOT be a list it must be a string
+                       "sensor_action": sensor_action.toString(), // temp gets converted to temperature on the server side
+                       // "temperature": data.temp,
+                       // "humidity": data.humidity,
+                       "tags": {
+                           "device_id": options.sense.id,
+                           "sensor_id": options.network.mac,
+                           "channel": options.network.channel,
+                           "signal_level": options.network.signal_level,
+                           "security": options.network.security,
+                       }};
+      // dynamically add the sensor actions to the payload
+      // the names are converted to the "correct" names on the server side
+      sensor_action.forEach(function (item) {
+        send_data[item] = data[item];
+      });
 
       // send the data
-      debugger;
       request.post({
         url: options.hiveempire_host || hiveempire_host,
         json: send_data
