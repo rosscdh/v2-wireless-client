@@ -21,7 +21,7 @@ require('getmac').getMac(function (err, macAddress) {
   //
   var debug = config.get('debug')
   var api = config.get('api')
-  console.log(api)
+
   var ssid_identifier = config.get('ssid_identifier');
   var default_sensor_ip = config.get('default_sensor_ip');
   var sense_device = {id: hiveempire_sense_device_id}
@@ -94,18 +94,17 @@ require('getmac').getMac(function (err, macAddress) {
 
         } else { // ssid match if
           access_point.ssid = null;
-          console.log('No match for SSID: ' + network.ssid + ' signal_level: ' + network.signal_level)
+          console.log('No match for SSID: ' + network.ssid + ' signal_level: ' + network.signal_level + ' security: ' + network.security)
         } // end ssid match if
 
       }); // end loop over networks
 
     } // end response.success
-
+    /**
+    * Try to send any previously captured tissues
+    */
+    console.log('End Scan')
+    //tissue.send_tissues().then(function (resp) { console.log(resp); });
   }); // end WifiControl.Scan
-
-  /**
-  * Try to send any previously captured tissues
-  */
-  tissue.send_tissues();
 
 });

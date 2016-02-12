@@ -35,24 +35,27 @@ function save_tissue (data) {
 }
 
 function send_tissues () {
-  SensorEvent.fetchAll().then(function (collection) {
+  var promise = new Promise(function (resolve, reject) {
+    SensorEvent.fetchAll().then(function (collection) {
+      collection.forEach(function (row) {
+        var send_data = JSON.parse(row.attributes.data);
+        var date_of = row.attributes.date_of;
 
-    collection.forEach(function (row) {
-      var send_data = JSON.parse(row.attributes.data);
-      var date_of = row.attributes.date_of;
+        sneeze.sneeze({}, {
+          'hiveempire_host': api.event,
+          'send_data': send_data,
+        })
+        .then(function (resp) {
+          console.log(resp);
+          row.destroy();
+          resolve(true)
+        }); // end sneeze promise
 
-      sneeze.sneeze({}, {
-        'hiveempire_host': api.event,
-        'send_data': send_data,
-      })
-      .then(function (resp) {
-        console.log(resp);
-        row.destroy();
-      }); // end sneeze promise
+      }); // end collection loop
+    }); // end fetchAll
+  }); // end Promise
 
-    });
-
-  });
+  return promise;
 }
 
 exports.save_tissue = save_tissue;
