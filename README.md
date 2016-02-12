@@ -1,5 +1,6 @@
 # v2-wireless-client
 
+Node module to sniff around for any scent of sensors and then send or save their data
 
 ## Install
 

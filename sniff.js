@@ -1,5 +1,9 @@
 'use strict';
-
+/**
+* SNIFF - Sniff around for sensors that allow us to grab their data
+* Module is responsible for finding sensor APs connecting and extracting
+* the data as well as converting to JSON
+*/
 var target_host = '192.168.4.1';
 
 var Promise = require('promise');
@@ -27,10 +31,12 @@ function sniff (host) {
     client.on('data', function (data) {
 
       console.log('Received: ' + data);
+      // todo try catch for errors and send error data
       var json_data = JSON.parse(data.toString());
-      client.destroy(); // kill client after server's response
-      resolve(json_data); // send data back via the promise
-
+      // kill client after server's response
+      client.destroy();
+      // send data back via the promise
+      resolve(json_data);
     });// end client on data
 
     client.on('close', function() {

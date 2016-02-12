@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+* SNEEZE - Exactly as it sounds
+* Module is responsible for sending acquired sensor data to the api consumer
+*/
 var hiveempire_host = 'http://api.hiveempire.com/v1/event/';
 
 var Promise = require('promise');
@@ -14,8 +17,6 @@ function sneeze (data, options) {
       var send_data = {"api_version": 2,
                        // sensor_action must NOT be a list it must be a string
                        "sensor_action": sensor_action.toString(), // temp gets converted to temperature on the server side
-                       // "temperature": data.temp,
-                       // "humidity": data.humidity,
                        "tags": {
                            "device_id": options.sense.id,
                            "sensor_id": options.network.mac,

@@ -9,10 +9,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.network "private_network", ip: "192.168.50.5"
 
-    #config.vm.provision "shell", path: "provision.sh", privileged: false
-
     config.vm.provision "ansible" do |ansible|
-        ansible.verbose = "v"
+        ansible.verbose = "vv"
         ansible.playbook = "ansible/setup.yml"
     end
 

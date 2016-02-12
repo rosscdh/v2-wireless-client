@@ -1,4 +1,10 @@
 'use strict';
+/**
+* SCANNER - Primary entry point for the whole process
+* Extract config, set constants
+* instantiate sniff
+* instantiate sneeze
+*/
 var config = require('config');
 
 // Get the passed in HiveEmpire-Sense device id
@@ -44,6 +50,7 @@ require('getmac').getMac(function (err, macAddress) {
     if (err) throw err;
 
     if (response.success === true) {
+      // loop over the list of networks
       response.networks.forEach(function (network) {
         /**
         { mac: 'a2:05:43:a1:7f:1c',
@@ -89,8 +96,10 @@ require('getmac').getMac(function (err, macAddress) {
           console.log('No match for SSID: ' + network.ssid + ' signal_level: ' + network.signal_level)
         } // end ssid match if
 
-      });
-    }
-  });
+      }); // end loop over networks
+
+    } // end response.success
+
+  }); // end WifiControl.Scan
 
 });
