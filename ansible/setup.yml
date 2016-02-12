@@ -7,6 +7,12 @@
     NODE_VERSION: 5.6.0
 
   tasks:
+    - name: Install Network Manager
+      apt: name=network-manager state=present update_cache=yes
+      sudo: yes
+      tags:
+        - network-install
+
     - name: Install node 1
       get_url: url=https://deb.nodesource.com/setup_4.x dest=~/ mode=0755
       sudo: yes
