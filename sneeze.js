@@ -42,6 +42,11 @@ function sneeze (data, options) {
       }
 
       // send the data
+      console.log('----------------------------')
+      console.log('Sending Data');
+      console.log('----------------------------')
+      console.log(send_data);
+      console.log('----------------------------')
       request.post({
         url: options.hiveempire_host || hiveempire_host,
         json: send_data

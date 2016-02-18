@@ -15,7 +15,7 @@ require('getmac').getMac(function (err, macAddress) {
   // Get Mac Address for this Device
   //
   var hiveempire_sense_device_id = macAddress;
-
+  console.log('macAddress: '+ hiveempire_sense_device_id)
   //
   // Config
   //
