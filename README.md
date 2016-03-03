@@ -2,6 +2,32 @@
 
 Node module to sniff around for any scent of sensors and then send or save their data
 
+# Raspberry setup
+
+We use ansible for managing raspberries
+
+**Add your rasberry host ips**
+
+edit: and add your raspberry host IP addresses which you can get by nmap -sP 192.168.0.1/24
+
+```
+vim ansible/hosts
+```
+
+**Setup SSH Auth**
+
+```
+ansible-playbook -i ansible/hosts ansible/auth.yml --ask-pass --sudo
+```
+
+
+**Install the App**
+
+```
+ansible-playbook -i ansible/hosts ansible/setup.yml
+```
+
+
 ## Install
 
 ```
@@ -25,23 +51,4 @@ NODE_ENV=development node scanner.js
 // type repl when you hit the debugger breakpoint to get access to vars etc
 
 NODE_ENV=development node debug scanner.js
-```
-
-
-# Raspberry setup
-
-We use ansible for managing raspberries
-
-
-**Setup SSH Auth**
-
-```
-ansible-playbook -i ansible/hosts ansible/auth.yml --ask-pass --sudo
-```
-
-
-**Install the App**
-
-```
-ansible-playbook -i ansible/hosts ansible/setup.yml
 ```
